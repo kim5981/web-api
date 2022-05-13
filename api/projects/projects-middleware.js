@@ -1,5 +1,3 @@
-// add middlewares here related to projects
-
 const Projects = require("./projects-model");
 
 async function validateProjectId (req, res, next) {
@@ -10,7 +8,7 @@ async function validateProjectId (req, res, next) {
                 message: "This user ID does not exist"
             })
         } else {
-            req.project = project
+            req.body.id = project
         }
     } catch(err) {
         res.status(500).json({

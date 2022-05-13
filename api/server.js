@@ -1,20 +1,15 @@
-const express = require('express');
-const {
-    validateProject
-} = require("./projects/projects-middleware");
+const express = require("express")
+const server = express()
 
-const server = express();
 const router = express.Router()
 
+const projectsRouter = require("./projects/projects-router")
+const actionsRouter = require("./actions/actions-router")
 
-// Build your actions router in /api/actions/actions-router.js
-// Build your projects router in /api/projects/projects-router.js
-
-const projectsRouter = require("./projects/projects-router");
-
-server.use(express.json()) //allows parsing
+server.use(express.json())
 
 server.use("/api/projects", projectsRouter)
+server.use("/api/actions", actionsRouter)
 
 server.get("/", (req, res) => {
     res.send("<h1>Sprint Challenge 4.1</h1>")

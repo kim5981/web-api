@@ -1,4 +1,3 @@
-// Write your "projects" router here!
 const express = require("express")
 
 const {
@@ -22,7 +21,7 @@ router.get("/", (req, res, next) => {
 
 //* GET /api/projects/:id
 router.get("/:id", validateProjectId, (req, res) => {
-    res.json(req.user)
+    res.json(req.body.id)
 })
 
 //* POST /api/projects
