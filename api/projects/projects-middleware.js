@@ -2,11 +2,11 @@ const Projects = require("./projects-model");
 
 async function validateProjectId (req, res, next) {
     try{
-        const id = await Projects.get(req.params.id)
-        if(!id){
+        const project = await Projects.get(req.params.id)
+        if(!project){
             next({ status: 404, message: "project not found" })
         } else {
-            req.id = id
+            req.project = project
             next()
         }
     } catch(err) {
@@ -29,8 +29,14 @@ function validateProject (req, res, next) {
     }
 }
 
+function validateCompleted (req, res, next) {
+    const { completed } = req.body
+    !completed ? res.status(400) : completed
+    next()
+}
 
 module.exports = {
     validateProjectId,
     validateProject,
+    validateCompleted
 }
