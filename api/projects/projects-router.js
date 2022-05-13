@@ -21,14 +21,26 @@ router.get("/", (req, res, next) => {
 
 //* GET /api/projects/:id
 router.get("/:id", validateProjectId, (req, res) => {
-    res.json(req.body.id)
+    res.json(req.id)
 })
 
 //* POST /api/projects
 router.post("/", validateProject, (req, res, next) => {
-    Projects.insert({ description: req.description })
+    Projects.insert({
+         name: req.body.name, 
+         description: req.body.description 
+        })
         .then(newProject => {
             res.status(201).json(newProject)
+        })
+        .catch(next)
+})
+
+//* PUT /api/projects/:id
+router.put("/:id", validateProject, validateProjectId, (req, res, next) => {
+    Projects.update(req.params.id, { project: req.project })
+        .then(updatedProject => {
+            res.json(updatedProject)
         })
         .catch(next)
 })
