@@ -4,8 +4,8 @@ async function validateProjectId (req, res, next) {
     try{
         const project = await Projects.get(req.params.id)
         if(!project){
-            res.json({
-                message: "This user ID does not exist"
+            res.status(404).json({
+                message: "project id not valid"
             })
         } else {
             req.body.id = project
@@ -18,6 +18,21 @@ async function validateProjectId (req, res, next) {
     next()
 }
 
+function validateProject (req, res, next) {
+    const { name, description } = req.body 
+    if (  (!description && !name)
+            || !description.trim() && !name.trim()
+        ) {
+        res.status(400).json({
+            message: "please enter a name and description"
+        })
+    } else {
+        res.json({ name, description })
+        next()
+    }
+}
+
 module.exports = {
-    validateProjectId
+    validateProjectId,
+    validateProject,
 }

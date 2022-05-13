@@ -25,5 +25,12 @@ router.get("/:id", validateProjectId, (req, res) => {
 })
 
 //* POST /api/projects
+router.post("/", validateProject, (req, res, next) => {
+    Projects.insert({ description: req.description })
+        .then(newProject => {
+            res.status(201).json(newProject)
+        })
+        .catch(next)
+})
 
 module.exports = router 
