@@ -19,6 +19,10 @@ router.get("/", (req, res, next) => {
 
 //* GET /api/actions/:id
 
+router.get("/:id", validateActionId, (req, res) => {
+    res.json(req.action)
+})
+
 //* POST /api/actions
 
 //* PUT /api/actions/:id
