@@ -4,7 +4,8 @@ const router = express.Router()
 
 const {
     validateActionId,
-    validateAction
+    validateAction,
+    validateCompleted
 } = require("./actions-middlware")
 
 const Actions = require("./actions-model")
@@ -21,7 +22,6 @@ router.get("/:id", validateActionId, (req, res) => {
     res.json(req.action)
 })
 
-//* POST /api/actions
 
 router.post("/", validateAction, (req, res, next) => {
     Actions.insert({
@@ -38,7 +38,31 @@ router.post("/", validateAction, (req, res, next) => {
 
 //* PUT /api/actions/:id
 
+router.put("/:id",
+ validateAction, 
+ validateActionId, 
+ validateCompleted, 
+ (req, res, next) => {
+  Actions.update(req.params.id, { 
+    notes: req.body.notes, 
+    description: req.body.description,
+    completed: req.body.completed,
+    project_id: req.body.project_id
+   })
+  .then(updatedAction => {
+      res.json(updatedAction)
+  })
+  .catch(next)  
+})
+
 //* DELETE /api/actions/:id
+router.delete("/:id", validateActionId, (req, res, next) => {
+    Actions.remove(req.params.id)
+    .then(() => {
+        res.json(req.action)
+    })
+    .catch(next)
+})
 
 
 
