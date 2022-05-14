@@ -9,9 +9,10 @@ const {
 const router = express.Router()
 
 const Projects = require("./projects-model")
+const Actions = require("../actions/actions-model")
 
 
-//* GET /api/projects
+
 router.get("/", (req, res, next) => {
     Projects.get()
      .then(projects => {
@@ -20,12 +21,11 @@ router.get("/", (req, res, next) => {
      .catch(next)
 });
 
-//* GET /api/projects/:id
+
 router.get("/:id", validateProjectId, (req, res) => {
     res.json(req.project)
 })
 
-//* POST /api/projects
 router.post("/", validateProject, (req, res, next) => {
     Projects.insert({
          name: req.body.name, 
@@ -38,7 +38,7 @@ router.post("/", validateProject, (req, res, next) => {
         .catch(next)
 })
 
-//* PUT /api/projects/:id
+
 router.put("/:id",
  validateProject, 
  validateProjectId, 
@@ -55,7 +55,6 @@ router.put("/:id",
         .catch(next)
 })
 
-//* DELETE /api/projects/:id
 router.delete("/:id", validateProjectId, (req, res, next) => {
     Projects.remove(req.params.id) 
         .then(() => {
@@ -65,5 +64,15 @@ router.delete("/:id", validateProjectId, (req, res, next) => {
 })
 
 //* GET /api/projects/:id/actions
+router.get("/:id/actions", validateProjectId, async (req, res, next) => {
+    try { 
+        const actions = await Projects.getProjectActions(req.params.id)
+        res.json(actions)
+        }
+    catch(err){
+        next(err)
+        }
+})
+
 
 module.exports = router 

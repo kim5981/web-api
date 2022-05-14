@@ -16,7 +16,7 @@ server.get("/", (req, res) => {
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
-    res.status(500).json({
+    res.status( err.status || 500).json({
         customMessage: "welp..",
         message: err.message,
         stack: err.stack
