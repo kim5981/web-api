@@ -10,6 +10,7 @@ const {
 
 const Actions = require("./actions-model")
 
+
 router.get("/", (req, res, next) => {
     Actions.get()
     .then(actions => {
@@ -17,6 +18,7 @@ router.get("/", (req, res, next) => {
     })
     .catch(next)
 })
+
 
 router.get("/:id", validateActionId, (req, res) => {
     res.json(req.action)
@@ -36,7 +38,6 @@ router.post("/", validateAction, (req, res, next) => {
     .catch(next)
 })
 
-//* PUT /api/actions/:id
 
 router.put("/:id",
  validateAction, 
@@ -55,7 +56,7 @@ router.put("/:id",
   .catch(next)  
 })
 
-//* DELETE /api/actions/:id
+
 router.delete("/:id", validateActionId, (req, res, next) => {
     Actions.remove(req.params.id)
     .then(() => {
@@ -63,7 +64,6 @@ router.delete("/:id", validateActionId, (req, res, next) => {
     })
     .catch(next)
 })
-
 
 
 module.exports = router

@@ -23,6 +23,7 @@ router.get("/:id", validateProjectId, (req, res) => {
     res.json(req.project)
 })
 
+
 router.post("/", validateProject, (req, res, next) => {
     Projects.insert({
          name: req.body.name, 
@@ -52,6 +53,7 @@ router.put("/:id",
         .catch(next)
 })
 
+
 router.delete("/:id", validateProjectId, (req, res, next) => {
     Projects.remove(req.params.id) 
         .then(() => {
@@ -60,7 +62,7 @@ router.delete("/:id", validateProjectId, (req, res, next) => {
         .catch(next)
 })
 
-//* GET /api/projects/:id/actions
+
 router.get("/:id/actions", validateProjectId, async (req, res, next) => {
     try { 
         const actions = await Projects.getProjectActions(req.params.id)
