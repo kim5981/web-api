@@ -16,6 +16,26 @@ async function validateActionId (req, res, next) {
     }
 }
 
+function validateAction (req, res, next) {
+    const { notes, description, project_id } = req.body
+    if( !notes || !description || !project_id ) {
+        res.status(400).json({
+            message: "please enter notes, description, and project id"
+        })
+    } else {
+        notes, description
+        next()
+    }
+}
+
+function validateCompleted (req, res, next) {
+    const { completed } = req.body 
+    !completed ? res.status(400) : completed
+    next()
+}
+
 module.exports = {
-    validateActionId
+    validateActionId,
+    validateAction,
+    validateCompleted
 }

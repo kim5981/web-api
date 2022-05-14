@@ -9,9 +9,6 @@ const {
 const router = express.Router()
 
 const Projects = require("./projects-model")
-const Actions = require("../actions/actions-model")
-
-
 
 router.get("/", (req, res, next) => {
     Projects.get()

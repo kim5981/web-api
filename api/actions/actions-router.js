@@ -4,11 +4,11 @@ const router = express.Router()
 
 const {
     validateActionId,
+    validateAction
 } = require("./actions-middlware")
 
 const Actions = require("./actions-model")
 
-//* GET /api/actions
 router.get("/", (req, res, next) => {
     Actions.get()
     .then(actions => {
@@ -17,13 +17,24 @@ router.get("/", (req, res, next) => {
     .catch(next)
 })
 
-//* GET /api/actions/:id
-
 router.get("/:id", validateActionId, (req, res) => {
     res.json(req.action)
 })
 
 //* POST /api/actions
+
+router.post("/", validateAction, (req, res, next) => {
+    Actions.insert({
+        notes: req.body.notes, 
+        description: req.body.description,
+        completed: req.body.completed,
+        project_id: req.body.project_id
+    })
+    .then(newAction => {
+        res.status(201).json(newAction)
+    })
+    .catch(next)
+})
 
 //* PUT /api/actions/:id
 
